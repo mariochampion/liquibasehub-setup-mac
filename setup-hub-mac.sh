@@ -13,7 +13,7 @@ read GHUB_BRANCH
 echo "2) and a directory to create to put things in:"
 read HUBDIR
 
-echo "3) enter [yes] for docker to build or [no] to not build?"
+echo "3) enter [yes] for docker to build or [no] to not build docker"
 read BUILD_OR_NOT
 
 echo "4) finally: download core app [yes] or [no]"
