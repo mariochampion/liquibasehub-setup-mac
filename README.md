@@ -13,7 +13,7 @@
 1. download the .sh file to where you want to create a new directory containing Hub
 2. open terminal, cd to file
 3. run `sh setup-hub-mac.sh`
-4. you will be asked for the liquibase hub branch 
+4. you will be asked for the liquibase hub branch (you need permissions)
 5. you will need to provide a name for a new directory to contain the code
 6. you will enter [yes] or [no] to choose --build or not in `docker-compose up`
 7. you will enter [yes] or [no] to download the core OSS/PRO app 
