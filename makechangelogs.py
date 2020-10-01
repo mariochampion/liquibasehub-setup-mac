@@ -26,7 +26,7 @@ import os, sys, subprocess, time
 ######### OVERALLCONFIGS
 ### TOOL VARS
 toolname = "python_gen_tool"
-toolversion = str("_v.10")
+toolversion = str("_v.11")
 
 ## TODO: MAKE THESE INTERACTIVE INPUTS
 #num_of_files = int(5)
