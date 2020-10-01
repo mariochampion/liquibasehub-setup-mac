@@ -1,7 +1,7 @@
 #!/bin/sh
 
 BASE_CORE_APP_URL="http://mariochampion.com/liquibase"
-CURRENT_CORE_APP="liquibase-4.01"
+CURRENT_CORE_APP="liquibase-4.1"
 
 echo "So you want to run Liquibase Hub on your mac?"
 echo "NOTE: You must have docker installed and running!"
@@ -13,11 +13,15 @@ read GHUB_BRANCH
 echo "2) and a directory to create to put things in:"
 read HUBDIR
 
-echo "3) enter [yes] for docker to build or [no] to not build docker"
+echo "3) enter [y] for docker to build or [n] to not build docker"
 read BUILD_OR_NOT
 
-echo "4) finally: download core app [yes] or [no]"
+echo "4) do you want to download the latest core app [y] or [n]"
 read GETCORE
+
+echo "5) and finally, start local in-mem H2 database? [y] or [n]"
+read STARTH2
+
 
 echo "\x1B[96mOk, starting setup...\x1B[0m "
 echo " "
