@@ -239,6 +239,12 @@ def main(args):
 			hubmode = "all"
 		if send_data_raw in ("n","N"):
 			hubmode = "off"	
+			
+		starth2_raw = raw_input("Optional: Start local in-memory H2 db? Enter [y] or [n] \r\n")
+		if starth2_raw in ("y","Y"):
+			starth2 = 1
+		if starth2_raw in ("n","N"):
+			starth2 = 0	
 
 	if len(args) == 3:
 		num_of_files = args[0]
@@ -271,9 +277,10 @@ def main(args):
 		
 		
 	##perhaps this belongs some other place but lets try a start-h2
-	print(color.red + "\r\n------ STARTING h2 DATABASE -------\r\n" + color.white)
-	newtabcmd="./start-h2"
-	subprocess.Popen(newtabcmd, shell=True)
+	if starth2 == 1:
+		print(color.red + "\r\n------ STARTING h2 DATABASE -------\r\n" + color.white)
+		newtabcmd="./start-h2"
+		subprocess.Popen(newtabcmd, shell=True)
 	
 	
 	
