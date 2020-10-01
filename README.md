@@ -60,7 +60,7 @@ The goal of the makechangelogs.py script is that you run updates against a local
 
 then run 
 
-`python makechangelogs.py 2 100 update realtime`
+`python makechangelogs.py 2 100 update all`
 
 and compare the total_times.csv in each timestamped directory.
 	 
@@ -73,8 +73,8 @@ and compare the total_times.csv in each timestamped directory.
     1. REQ: number of changelogs to create
     2. REQ: number of changesets in each changelog
     3. OPT: command to run (right now limited to `update`)
-    4. OPT: switch to send data to Hub or not [off|realtime]
-5. Example: `python makechangelogs.py 5 25 <update> <realtime>` 
+    4. OPT: switch to send data to Hub or not [off|all]
+5. Example: `python makechangelogs.py 5 25 <update> <all>` 
 6. Output with NO optional `update` parameter: 
 	1. a new directory "loadtest_5x25_<HrMinSecTimestamp>" with contents
 	2. 5 changelogs named "changelog001.h2.sql", "changelog002.h2.sql", etc with 25 changesets in each
@@ -82,7 +82,7 @@ and compare the total_times.csv in each timestamped directory.
 7. Output with optional `update` parameter
 	1. same as above BUT then `liquibase update` is called for each properties file
 	2. if the optional 3rd parameter is supplied, you will be asked to Enter [y]/[n] if you want to send the commands report to Hub
-8. If 4th param is "off" no data sent to Hub. If "realtime" then command metadata and sql content will sent to Hub
+8. If 4th param is "off" no data sent to Hub. If "all" then command metadata and sql content will sent to Hub
 9. Also a time tracking changelog01-worktime.csv.CSV, etc file is created to log performance of each changelog file and 
 10. A time_total.csv is added which provides total elapsed time in seconds to perform all the commands across all changelogs
 
@@ -104,7 +104,7 @@ If you dont want this, please comment out this line.
 
 5. DONE - Add some color to console easier to read
 
-6. Make liquibase.properties interactive to allow non-H2 and remote DBs, etc.
+6. DONE - Make loadtest interactive to allow starting local in-mem H2 db or not
 
 7. DONE - total_time.csv is inaccurate!! it is the actually just the last batch. need to store start outside the loop.
 
