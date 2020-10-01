@@ -54,7 +54,7 @@
 	 
 **Intention** 
 	 
-The goal of the makechangelogs.py script is that you run updates against a local h2 with and without sending to hub and compare the times logged in the total_time.csv created in the dir which was created to store you testing chaggelogs. for example, run
+The goal of the makechangelogs.py script is that you run updates against a local h2 with and without sending to hub and compare the times logged in the total_time.csv created in the dir which was created to store you testing changelogs. for example, run
 
 `python makechangelogs.py 2 100 update`
 
@@ -62,7 +62,7 @@ then run
 
 `python makechangelogs.py 2 100 update all`
 
-and compare the total_times.csv in each timestamped directory.
+and compare the total_times.csv in each timestamped directories.
 	 
 	 
 **Usage** 
@@ -87,8 +87,8 @@ and compare the total_times.csv in each timestamped directory.
 10. A time_total.csv is added which provides total elapsed time in seconds to perform all the commands across all changelogs
 
 **NOTE**
-This script used an included H2 database, which is automatically started around line 313 (look for a subprocess.Popen).
-If you dont want this, please comment out this line.
+This script used an included local in-memory H2 database, which you can [y] or [n] decide to auto-start when running the script via 
+`python makechangelogs.py <N> <M>` for interactive setup.
 
 	
 **NEXT STEPs**
