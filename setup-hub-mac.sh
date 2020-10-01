@@ -16,11 +16,8 @@ read HUBDIR
 echo "3) enter [y] for docker to build or [n] to not build docker"
 read BUILD_OR_NOT
 
-echo "4) do you want to download the latest core app [y] or [n]"
+echo "4) finally, do you want to download the latest core app [y] or [n]"
 read GETCORE
-
-echo "5) and finally, start local in-mem H2 database? [y] or [n]"
-read STARTH2
 
 
 echo "\x1B[96mOk, starting setup...\x1B[0m "
