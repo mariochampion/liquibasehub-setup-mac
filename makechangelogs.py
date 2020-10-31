@@ -26,7 +26,7 @@ import os, sys, subprocess, time
 ######### OVERALLCONFIGS
 ### TOOL VARS
 toolname = "python_gen_tool"
-toolversion = str("_v.11")
+toolversion = str("_v.12")
 
 ## TODO: MAKE THESE INTERACTIVE INPUTS
 #num_of_files = int(5)
@@ -159,7 +159,7 @@ def make_changelogfiles(num_of_files, num_of_changesets, hubmode):
 		## SETUP SOME VARS
 		thisincrement = str((a+1))
 		changelogname = changelog_pre
-		changelogtoadd = changelog_pre + thisincrement + "." +db_shortcode+ "." + changelog_type
+		changelogtoadd = changelog_pre + thisincrement + "_"+str(num_of_changesets)+"_changes." +db_shortcode+ "." + changelog_type
 		
 		
 		
