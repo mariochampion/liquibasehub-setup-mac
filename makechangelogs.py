@@ -214,6 +214,7 @@ def main(args):
 	do_lbcmd = 0
 	hubmode = hubmode_default
 	total_time = 0
+	starth2 = 0
 
 	if len(args) == 0:
 		print(color.yellow + "No parameters found. Please answer two quick questions:" + color.white)		
