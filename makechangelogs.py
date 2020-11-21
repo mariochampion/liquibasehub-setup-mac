@@ -26,7 +26,7 @@ import os, sys, subprocess, time, random
 ######### OVERALLCONFIGS
 ### TOOL VARS
 toolname = "python_gen_tool"
-toolversion = str("_v.12")
+toolversion = str("_v.14")
 
 ## TODO: MAKE THESE INTERACTIVE INPUTS
 #num_of_files = int(5)
@@ -57,6 +57,7 @@ hubmode_default = "all"
 hubapikey = os.environ.get('LIQUIBASE_HUB_APIKEY')
 huburl = os.environ.get('LIQUIBASE_HUB_URL')
 hubchangelogid = os.environ.get('LIQUIBASE_HUB_CHANGELOGID')
+hubprojectid = os.environ.get('LIQUIBASE_HUB_PROJECTID')
 if hubapikey == "" or huburl == "" or hubchangelogid== "":
 	print("DOH! Need both a LIQUIBASE_HUB_APIKEY and LIQUIBASE_HUB_URL and LIQUIBASE_HUB_CHANGELOGID for this to work.")
 	print("Check the README for instructions!")
@@ -178,7 +179,8 @@ def make_changelogfiles(num_of_files, num_of_changesets, hubmode):
 		print("START MAKING FILES")	
 		#start the file
 		f = open( changelogtoadd,"w+" )
-		f.write( sql_format_starter + " changelogid:" + str(hubchangelogid) + "\r\n")
+		# f.write( sql_format_starter + " changelogid:" + str(hubchangelogid) + "\r\n")
+		f.write( sql_format_starter + "\r\n")
 		f.write("\r\n")
 		
 		
@@ -362,6 +364,12 @@ def dolbcommand(loadtest_dir, num_of_files, num_of_changesets, lbcmd, hubmode):
 		## worktime_fields = action,hubmode,start,end,elapsed
 		status_start = time.time()		
 		
+		# first register the changelog
+		registerthechangelog()
+		
+		
+		
+		
 		# now do the liquibase command
 		# assume for now that h2 is running from external sources etc
 		# do this hard-coded, but this/these could passed in from params
@@ -398,6 +406,18 @@ def dolbcommand(loadtest_dir, num_of_files, num_of_changesets, lbcmd, hubmode):
 
 
 	
+######################################
+## register the changelogs for better experience
+def registerthechangelog():
+	## get the project id and make a string
+	hubprojectidz = str(hubprojectid)
+	regchangelogcmd = "liquibase registerChangeLog --hubProjectId="+hubprojectidz
+	print(color.cyan + "\r\n------ (REGISTERCHANGELOG: START) -------\r\n" + color.white)
+	subprocess.call(regchangelogcmd, shell=True)
+	print(color.cyan + "\r\n------ (REGISTERCHANGELOG: DONE) -------\r\n" + color.white)	
+
+
+
 	
 ######################################
 ## just a little closer
