@@ -390,6 +390,11 @@ def dolbcommand(loadtest_dir, num_of_files, num_of_changesets, lbcmd, hubmode):
 ######################################
 ## just a little closer
 def do_teh_closing(total_time, total_commands):
+	## first stop h2
+	endH2cmd="killall java"
+	subprocess.Popen(endH2cmd, shell=True)
+	
+	## then present the good news!
 	print(color.magenta + "------------------------------------------" + color.white)
 	print("\r")
 	print(color.cyan + " -- Completed: " +str(total_commands)+" commands in " +str(total_time)+ " seconds-- " + color.white)
