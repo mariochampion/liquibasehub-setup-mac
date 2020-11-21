@@ -47,7 +47,7 @@
      
 	 `export LIQUIBASE_HUB_URL="<put a url here>"`
 	 
- 	 `export LIQUIBASE_HUB_CHANGELOGID="<addyourchangelogid>"`
+ 	 `export LIQUIBASE_HUB_PROJECTID="<your Hub Project ID>"`
  	 
  4. Liquibase installed and on your PATH if you want to utilize the optional 3rd parameter of `update`
 	 
