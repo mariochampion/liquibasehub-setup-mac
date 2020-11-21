@@ -20,7 +20,7 @@ make a bunch of changelogs with changesets in a directory, for load testing liqu
 
 
 ################################# love your library(s)
-import os, sys, subprocess, time
+import os, sys, subprocess, time, random
 
 
 ######### OVERALLCONFIGS
@@ -40,7 +40,7 @@ dir_prefix = "loadtest"
 authorname = "mmc"
 authorid = "create-table"
 comment = toolname + toolversion
-tablename = "ecompany"
+tablename_pre = "shnerb"
 
 ### CHANGELOG VARS
 changelog_pre = "changelog00"
@@ -72,20 +72,32 @@ timefile = "total_time.csv"
 
 #################################
 ## add a changeset to the changelog
-def add_changeset(f, authorname, authorid, comment, tablename, thisincrement, thiscounter):
+def add_changeset(f, authorname, authorid, comment, tablename_pre, thisincrement, thiscounter):
 	
 	authorid = authorid + "-" + thisincrement + "-" + thiscounter
-	tablename = tablename + "" + thisincrement + "" + thiscounter
-		
-	f.write("-- changeset " + authorname + ":" + authorid + "\r\n")
-	f.write("-- comment: " + comment + "\r\n")
-	f.write("create table " + tablename + " (\r\n")
-	f.write("    id int primary key,\r\n")
-	f.write("    name varchar(255) not null,\r\n")
-	f.write("    address1 varchar(255),\r\n")
-	f.write("    address2 varchar(255),\r\n")
-	f.write("    city varchar(30)\r\n")
-	f.write(")\r\n")
+	choice = random.choice(["company", "pizza"])
+	tablename = tablename_pre + "" + choice + "" + thisincrement + "" + thiscounter
+	
+	if choice == "company":
+		f.write("-- changeset " + authorname + ":" + authorid + "\r\n")
+		f.write("-- comment: " + comment + "\r\n")
+		f.write("create table " + tablename + " (\r\n")
+		f.write("    id int primary key,\r\n")
+		f.write("    name varchar(255) not null,\r\n")
+		f.write("    address1 varchar(255),\r\n")
+		f.write("    address2 varchar(255),\r\n")
+		f.write("    city varchar(30)\r\n")
+		f.write(")\r\n")
+	else:
+		f.write("-- changeset " + authorname + ":" + authorid + "\r\n")
+		f.write("-- comment: " + comment + "\r\n")
+		f.write("create table " + tablename + " (\r\n")
+		f.write("    id int primary key,\r\n")
+		f.write("    cheese varchar(255) not null,\r\n")
+		f.write("    inches varchar(255),\r\n")
+		f.write("    topping varchar(255),\r\n")
+		f.write("    rainbows int(5)\r\n")
+		f.write(")\r\n")	
 	
 	f.write("\r\n")
 	
@@ -172,7 +184,7 @@ def make_changelogfiles(num_of_files, num_of_changesets, hubmode):
 		
 		for b in range(num_of_changesets):
 			thiscounter = str(b + 1)
-			add_changeset(f, authorname, authorid, comment, tablename, thisincrement, thiscounter)
+			add_changeset(f, authorname, authorid, comment, tablename_pre, thisincrement, thiscounter)
 		f.close() 
 	
 		#### while it could be argued for these to be decoupled, they are convenient here for now
