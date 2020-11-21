@@ -46,7 +46,7 @@ tablename = "ecompany"
 changelog_pre = "changelog00"
 db_shortcode = "h2"
 changelog_type = "sql"
-sql_format_starter = "--liquibase formatted sql"
+sql_format_starter = "-- liquibase formatted sql "
 
 ### LIQUIBASE PROPERTIES FILE VARS
 lbpropsfile_pre = "liquibase"
@@ -77,8 +77,8 @@ def add_changeset(f, authorname, authorid, comment, tablename, thisincrement, th
 	authorid = authorid + "-" + thisincrement + "-" + thiscounter
 	tablename = tablename + "" + thisincrement + "" + thiscounter
 		
-	f.write("--changeset " + authorname + ":" + authorid + "\r\n")
-	f.write("--comment: " + comment + "\r\n")
+	f.write("-- changeset " + authorname + ":" + authorid + "\r\n")
+	f.write("-- comment: " + comment + "\r\n")
 	f.write("create table " + tablename + " (\r\n")
 	f.write("    id int primary key,\r\n")
 	f.write("    name varchar(255) not null,\r\n")
