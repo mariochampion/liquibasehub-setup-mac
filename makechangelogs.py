@@ -75,8 +75,8 @@ timefile = "total_time.csv"
 ## add a changeset to the changelog
 def add_changeset(f, authorname, authorid, comment, tablename_pre, thisincrement, thiscounter):
 	
-	authorid = authorid + "-" + thisincrement + "-" + thiscounter
 	choice = random.choice(["company", "pizza"])
+	authorid = authorid + "-" + choice + "-" +thisincrement + "-" + thiscounter
 	tablename = tablename_pre + "" + choice + "" + thisincrement + "" + thiscounter
 	
 	if choice == "company":
