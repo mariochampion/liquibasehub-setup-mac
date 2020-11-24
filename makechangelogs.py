@@ -26,7 +26,7 @@ import os, sys, subprocess, time, random
 ######### OVERALLCONFIGS
 ### TOOL VARS
 toolname = "python_gen_tool"
-toolversion = str("_v.14")
+toolversion = str("_v.15")
 
 ## TODO: MAKE THESE INTERACTIVE INPUTS
 #num_of_files = int(5)
@@ -228,7 +228,7 @@ def main(args):
 	do_lbcmd = 0
 	hubmode = hubmode_default
 	total_time = 0
-	starth2 = 0
+	starth2 = 1
 
 	if len(args) == 0:
 		print(color.yellow + "No parameters found. Please answer two quick questions:" + color.white)		
@@ -423,8 +423,10 @@ def registerthechangelog():
 ## just a little closer
 def do_teh_closing(total_time, total_commands):
 	## first stop h2
+	print(color.magenta + "begin teh_end...(hold eachother)..." + color.white)
 	endH2cmd="killall java"
 	subprocess.Popen(endH2cmd, shell=True)
+	time.sleep(3) 
 	
 	## then present the good news!
 	print(color.magenta + "------------------------------------------" + color.white)
