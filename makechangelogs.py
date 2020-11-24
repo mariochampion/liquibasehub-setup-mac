@@ -98,8 +98,9 @@ def add_changeset(f, authorname, authorid, comment, tablename_pre, thisincrement
 		f.write("    inches varchar(255),\r\n")
 		f.write("    topping varchar(255),\r\n")
 		f.write("    rainbows int(5)\r\n")
-		f.write(")\r\n")	
-	
+		f.write(")\r\n")
+		
+	f.write("-- rollback DROP TABLE " + tablename + "\r\n")	
 	f.write("\r\n")
 	
 
