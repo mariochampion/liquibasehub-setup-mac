@@ -30,10 +30,10 @@
     
  2. You need to sign up with Liquibase Hub to get an API Key, and you will need to register a changelog to a Hub Project, so you can use the changelogid
  
-    -- http://hub.liquibase.com
+    -- https://hub.liquibase.com
 
     -- see docs for details on the new Hub-specific command `liquibase registerchangelog` which connects a changelog's operations to a project stored in your 
-    Liquibase Hub account
+    Liquibase Hub account at https://docs.liquibase.com/commands/community/registerchangelog.html
     
  3. Know how to add and export environment variables to your bash_profile, so you do not put your APIKEY in source control
  
@@ -69,22 +69,32 @@ and compare the total_times.csv in each timestamped directories.
 1. open terminal and cd into your desired directory
 2. `git clone https://github.com/mariochampion/liquibasehub-setup-mac.git`
 3. `cd liquibasehub-setup-mac`
-4. there are two REQUIRED and two OPTIONAL parameters available in the command line
+4a. Example usage: `python makechangelogs.py 5 25` to create 5 changelogs of 25 changesets 
+4b. Example usage: `python makechangelogs.py 5 25 update all` to create 5 changelogs of 25 changesets, run `update` and send `all` data to Hub using local and transient H2 database
+4c. Example usage: `python makechangelogs.py 5 25 update meta` to create 5 changelogs of 25 changesets, run `update` and send only `meta` data to Hub using local and transient H2 database
+
+
+**Details**
+1. There are two REQUIRED and two OPTIONAL parameters available in the command line. THE ORDER MATTERS.
     1. REQ: number of changelogs to create
     2. REQ: number of changesets in each changelog
     3. OPT: command to run (right now limited to `update`)
     4. OPT: switch to send data to Hub or not [off|all]
-5. Example: `python makechangelogs.py 5 25 <update> <all>` 
-6. Output with NO optional `update` parameter: 
+2. Example: `python makechangelogs.py 5 25 <update> <all>` 
+3. Output with NO optional `update` parameter: 
 	1. a new directory "loadtest_5x25_<HrMinSecTimestamp>" with contents
 	2. 5 changelogs named "changelog001.h2.sql", "changelog002.h2.sql", etc with 25 changesets in each
-	3. 5 matching liquibase.properties files "liquibase-01.properties", "liquibase-02.properties"
-7. Output with optional `update` parameter
+	3. 5 matching liquibase.properties files "liquibase-01.properties", "liquibase-02.properties", etc
+4. Output with optional `update` parameter: 
 	1. same as above BUT then `liquibase update` is called for each properties file
 	2. if the optional 3rd parameter is supplied, you will be asked to Enter [y]/[n] if you want to send the commands report to Hub
-8. If 4th param is "off" no data sent to Hub. If "all" then command metadata and sql content will sent to Hub
-9. Also a time tracking changelog01-worktime.csv.CSV, etc file is created to log performance of each changelog file and 
-10. A time_total.csv is added which provides total elapsed time in seconds to perform all the commands across all changelogs
+5. The 4th param details:
+    1. "all" then command's metadata, sql, and log content will sent to Hub
+    2. "meta" then only the command's metadata (and no sql or log content) will sent to Hub
+    3. "off" no data sent to Hub
+6. Time-tracking files:
+	1. A time tracking changelog01-worktime.csv.CSV, etc file is created to log performance of each changelog file and 
+	2. A time_total.csv is added which provides total elapsed time in seconds to perform all the commands across all changelogs
 
 **NOTE**
 This script used an included local in-memory H2 database, which you can [y] or [n] decide to auto-start when running the script via 
