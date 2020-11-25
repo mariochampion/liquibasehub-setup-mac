@@ -139,11 +139,17 @@ This script used an included local in-memory H2 database, which you can [y] or [
 
 
 
-LICENSES
+** LICENSES **
+
 This repo when cloned contains unmodified binary redistributions for
 H2 database engine (https://h2database.com/),
 which is dual licensed and available under the MPL 2.0
 (Mozilla Public License) or under the EPL 1.0 (Eclipse Public License).
+
+
 An original copy of the license agreement can be found at:
 https://h2database.com/html/license.html
 	
+	
+	
+ps. i love you. boop.boop.
