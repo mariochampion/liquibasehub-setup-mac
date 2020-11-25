@@ -85,7 +85,7 @@ and compare the total_times.csv in each timestamped directories.
     1. REQ: number of changelogs to create
     2. REQ: number of changesets in each changelog
     3. OPT: command to run (right now limited to `update`)
-    4. OPT: switch to send data to Hub or not [off|all]
+    4. OPT: switch to send data to Hub or not [all=default|meta|off]
 2. Example: `python makechangelogs.py 5 25 <update> <all>` 
 3. Output with NO optional `update` parameter: 
 	1. a new directory "loadtest_5x25_<HrMinSecTimestamp>" with contents
