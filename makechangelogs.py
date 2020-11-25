@@ -260,6 +260,7 @@ def main(args):
 		if starth2_raw in ("y","Y"):
 			starth2 = 1
 		if starth2_raw in ("n","N"):
+			print(color.red + "\r\n------ WARNING: H2 not to be started. If no active H2 connection found, update will fail. -------\r\n" + color.white)
 			starth2 = 0	
 
 	if len(args) == 3:
