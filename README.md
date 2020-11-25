@@ -128,7 +128,7 @@ This script used an included local in-memory H2 database, which you can [y] or [
 
 9. DONE - add rollback script to tool's SQL changelogs so local users can do rollbacks (outside this tool, for now)
 
-10. check in on all startup params permutations for the correct follow ups when params missing
+10. DONE - check in on all startup params permutations for the correct follow ups when params missing
 
 11. enable XML changelogs
 
