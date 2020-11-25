@@ -95,9 +95,9 @@ and compare the total_times.csv in each timestamped directories.
 	1. same as above BUT then `liquibase update` is called for each properties file
 	2. if the optional 3rd parameter is supplied, you will be asked to Enter [y]/[n] if you want to send the commands report to Hub
 5. The 4th param details:
-    1. "all" then command's metadata, sql, and log content will sent to Hub
-    2. "meta" then only the command's metadata (and no sql or log content) will sent to Hub
-    3. "off" no data sent to Hub
+    1. "all" reports command's metadata, sql, and log content will sent to Hub
+    2. "meta" reoprts only the command's metadata (and no sql or log content) will sent to Hub
+    3. "off" reports no data sent to Hub
 6. Time-tracking files:
 	1. A time tracking changelog01-worktime.csv.CSV, etc file is created to log performance of each changelog file and 
 	2. A time_total.csv is added which provides total elapsed time in seconds to perform all the commands across all changelogs
@@ -124,7 +124,17 @@ This script used an included local in-memory H2 database, which you can [y] or [
 
 7. DONE - total_time.csv is inaccurate!! it is the actually just the last batch. need to store start outside the loop.
 
-8. REQUIRES HUB API WORK -  actually register each changelog so hub data is more accurate. wont change times, as each changelog has same changesets, so less important.
+8. DONE - REQUIRES HUB API WORK -  actually register each changelog so hub data is more accurate. wont change times, as each changelog has same changesets, so less important.
+
+9. DONE - add rollback script to tool's SQL changelogs so local users can do rollbacks (outside this tool, for now)
+
+10. check in on all startup params permutations for the correct follow ups when params missing
+
+11. enable XML changelogs
+
+12. enable rollback commands via this tool
+
+
 
 
 
