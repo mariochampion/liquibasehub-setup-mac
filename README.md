@@ -70,6 +70,7 @@ and compare the total_times.csv in each timestamped directories.
 1. open terminal and cd into your desired directory
 2. `git clone https://github.com/mariochampion/liquibasehub-setup-mac.git`
 3. `cd liquibasehub-setup-mac`
+
 4a. Example usage: `python makechangelogs.py 5 25` to create 5 changelogs of 25 changesets 
 
 
