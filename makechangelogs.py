@@ -339,7 +339,7 @@ def main(args):
 	
 	### do teh closing
 	total_commands = int(num_of_files)*int(num_of_changesets)
-	do_teh_closing(total_time, total_commands)
+	do_teh_closing(total_time, total_commands, loadtest_dir)
 
 
 
@@ -423,9 +423,9 @@ def registerthechangelog():
 	
 ######################################
 ## just a little closer
-def do_teh_closing(total_time, total_commands):
+def do_teh_closing(total_time, total_commands, loadtest_dir):
 	## first stop h2
-	print(color.magenta + "begin teh_end...(hold eachother)..." + color.white)
+	print(color.magenta + "begin teh_end...(hold each other)..." + color.white)
 	endH2cmd="killall java"
 	subprocess.Popen(endH2cmd, shell=True)
 	time.sleep(3) 
@@ -434,6 +434,8 @@ def do_teh_closing(total_time, total_commands):
 	print(color.magenta + "------------------------------------------" + color.white)
 	print("\r")
 	print(color.cyan + " -- Completed: " +str(total_commands)+" commands in " +str(total_time)+ " seconds-- " + color.white)
+	print("\r")
+	print(color.cyan + " -- Check out time tracking files: 'open " +str(loadtest_dir)+"/" +str(timefile)+ "' -- " + color.white)
 	print("\r")
 	print(color.cyan + "     ps. i love you. boop.boop." + color.white)
 	print("\r")
