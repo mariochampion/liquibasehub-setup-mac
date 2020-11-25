@@ -33,7 +33,8 @@
     -- https://hub.liquibase.com
 
     -- see docs for details on the new Hub-specific command `liquibase registerchangelog` which connects a changelog's operations to a project stored in your 
-    Liquibase Hub account at https://docs.liquibase.com/commands/community/registerchangelog.html
+    Liquibase Hub account at 
+    -- https://docs.liquibase.com/commands/community/registerchangelog.html
     
  3. Know how to add and export environment variables to your bash_profile, so you do not put your APIKEY in source control
  
@@ -45,9 +46,9 @@
     
      `export LIQUIBASE_HUB_APIKEY="<put your api key here>"`
      
-	 `export LIQUIBASE_HUB_URL="<put a url here>"`
+	 `export LIQUIBASE_HUB_URL="<put a url here>"` (in 99.9% cases this is https://hub.liquibase.com)
 	 
- 	 `export LIQUIBASE_HUB_PROJECTID="<your Hub Project ID>"`
+ 	 `export LIQUIBASE_HUB_PROJECTID="<put your Hub Project ID>"`
  	 
  4. Liquibase installed and on your PATH if you want to utilize the optional 3rd parameter of `update`
 	 
@@ -70,7 +71,11 @@ and compare the total_times.csv in each timestamped directories.
 2. `git clone https://github.com/mariochampion/liquibasehub-setup-mac.git`
 3. `cd liquibasehub-setup-mac`
 4a. Example usage: `python makechangelogs.py 5 25` to create 5 changelogs of 25 changesets 
+
+
 4b. Example usage: `python makechangelogs.py 5 25 update all` to create 5 changelogs of 25 changesets, run `update` and send `all` data to Hub using local and transient H2 database
+
+
 4c. Example usage: `python makechangelogs.py 5 25 update meta` to create 5 changelogs of 25 changesets, run `update` and send only `meta` data to Hub using local and transient H2 database
 
 
