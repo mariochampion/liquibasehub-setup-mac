@@ -40,7 +40,7 @@ dir_prefix = "loadtest"
 authorname = "mmc"
 authorid = "create-table"
 comment = toolname + toolversion
-tablename_pre = "shnerb"
+tablename_pre = "gen"
 
 ### CHANGELOG VARS
 changelog_pre = "changelog00"
