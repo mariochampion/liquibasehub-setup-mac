@@ -47,7 +47,7 @@ changelog_pre = "changelog00"
 db_shortcode = "h2"
 changelog_type = "xml"
 sql_format_starter = "-- liquibase formatted sql "
-xml_format_starter = '<?xml version="1.0" encoding="UTF-8"?>'
+
 
 
 ### LIQUIBASE PROPERTIES FILE VARS
@@ -108,6 +108,29 @@ def add_changeset_sql(f, authorname, authorid, comment, tablename_pre, thisincre
 
 
 
+
+#################################
+## start an xml changelog
+def xml_format_starter(f):
+	f.write('<?xml version="1.0" encoding="UTF-8"?>')
+	f.write("\r\n")
+	f.write("\r\n")
+	f.write('<databaseChangeLog')
+	f.write("\r\n")
+	f.write('    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"')
+	f.write("\r\n")
+	f.write('    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+	f.write("\r\n")
+	f.write('    xmlns:pro="http://www.liquibase.org/xml/ns/pro"')
+	f.write("\r\n")
+	f.write('    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.2.xsd ">')
+	f.write("\r\n")
+
+	
+
+
+
+
 #################################
 ## add a changeset to the changelog
 def add_changeset_xml(f, authorname, authorid, comment, tablename_pre, thisincrement, thiscounter):
@@ -118,13 +141,12 @@ def add_changeset_xml(f, authorname, authorid, comment, tablename_pre, thisincre
 	
 	if choice == "company":
 		f.write("xml changeset type 1\r\n")
-		f.write(")\r\n")
+		f.write("\r\n")
 
 	else:
 		f.write("xml changeset tyoe 2\r\n")
-		f.write(")\r\n")
+		f.write("\r\n")
 		
-	f.write("-- rollback DROP TABLE " + tablename + "\r\n")	
 	f.write("\r\n")
 	
 
@@ -202,17 +224,26 @@ def make_changelogfiles(num_of_files, num_of_changesets, hubmode):
 		#start the file
 		print("START MAKING FILES")	
 		f = open( changelogtoadd,"w+" )		
+
+		if changelog_type == "sql":		
+			f.write( sql_format_starter + "\r\n")
+			f.write("\r\n")
+
+		if changelog_type == "xml":				
+			xml_format_starter(f)
+			f.write("\r\n")
 		
+		# add changeset
 		for b in range(num_of_changesets):
 			thiscounter = str(b + 1)
 			if changelog_type == "sql":
-				f.write( sql_format_starter + "\r\n")
-				f.write("\r\n")
 				add_changeset_sql(f, authorname, authorid, comment, tablename_pre, thisincrement, thiscounter)
 			if changelog_type == "xml":
-				f.write( xml_format_starter + "\r\n")
-				f.write("\r\n")
 				add_changeset_xml(f, authorname, authorid, comment, tablename_pre, thisincrement, thiscounter)
+				
+		#add closing line in changelog file if XML
+		if changelog_type == "xml":
+			f.write('</databaseChangeLog>')	
 			
 		f.close() 
 	
