@@ -140,13 +140,37 @@ def add_changeset_xml(f, authorname, authorid, comment, tablename_pre, thisincre
 	tablename = tablename_pre + "" + choice + "" + thisincrement + "" + thiscounter
 	
 	if choice == "company":
-		f.write("xml changeset type 1\r\n")
+		f.write('    <changeSet id="'+authorid+'" author="'+authorname+'">\r\n')
+		f.write('        <createTable tableName="'+tablename+'">\r\n')
+		f.write('            <column name="id" type="int">\r\n')
+		f.write('                <constraints primaryKey="true"/>\r\n')
+		f.write('            </column>\r\n')
+		f.write('            <column name="name" type="varchar(50)">\r\n')
+		f.write('                <constraints nullable="false"/>\r\n')
+		f.write('            </column>\r\n')
+		f.write('            <column name="address1" type="varchar(255)"/>\r\n')
+		f.write('            <column name="address2" type="varchar(255)"/>\r\n')
+		f.write('            <column name="city" type="varchar(128)"/>\r\n')
+		f.write('        </createTable>\r\n')
+		f.write('    <changeSet>')
+		f.write("\r\n")
+	else:
+		f.write('    <changeSet id="'+authorid+'" author="'+authorname+'">\r\n')
+		f.write('        <createTable tableName="'+tablename+'">\r\n')
+		f.write('            <column name="id" type="int">\r\n')
+		f.write('                <constraints primaryKey="true"/>\r\n')
+		f.write('            </column>\r\n')
+		f.write('            <column name="crust" type="varchar(50)">\r\n')
+		f.write('                <constraints nullable="false"/>\r\n')
+		f.write('            </column>\r\n')
+		f.write('            <column name="inches" type="varchar(255)"/>\r\n')
+		f.write('            <column name="topping" type="varchar(255)"/>\r\n')
+		f.write('            <column name="sauce" type="varchar(128)"/>\r\n')
+		f.write('        </createTable>\r\n')
+		f.write('    <changeSet>')
 		f.write("\r\n")
 
-	else:
-		f.write("xml changeset tyoe 2\r\n")
-		f.write("\r\n")
-		
+	
 	f.write("\r\n")
 	
 
