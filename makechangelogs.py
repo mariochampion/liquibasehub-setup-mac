@@ -45,7 +45,8 @@ tablename_pre = "gen"
 ### CHANGELOG VARS
 changelog_pre = "changelog00"
 db_shortcode = "h2"
-changelog_type = "xml"
+changelogstypes_list = ("sql", "xml")
+changelog_type_default = "sql"
 sql_format_starter = "-- liquibase formatted sql "
 
 
@@ -117,13 +118,13 @@ def xml_format_starter(f):
 	f.write("\r\n")
 	f.write('<databaseChangeLog')
 	f.write("\r\n")
-	f.write('    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"')
+	f.write('        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"')
 	f.write("\r\n")
-	f.write('    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+	f.write('        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
 	f.write("\r\n")
-	f.write('    xmlns:pro="http://www.liquibase.org/xml/ns/pro"')
+	f.write('        xmlns:pro="http://www.liquibase.org/xml/ns/pro"')
 	f.write("\r\n")
-	f.write('    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.2.xsd ">')
+	f.write('        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.2.xsd">')
 	f.write("\r\n")
 
 	
@@ -152,7 +153,7 @@ def add_changeset_xml(f, authorname, authorid, comment, tablename_pre, thisincre
 		f.write('            <column name="address2" type="varchar(255)"/>\r\n')
 		f.write('            <column name="city" type="varchar(128)"/>\r\n')
 		f.write('        </createTable>\r\n')
-		f.write('    <changeSet>')
+		f.write('    </changeSet>')
 		f.write("\r\n")
 	else:
 		f.write('    <changeSet id="'+authorid+'" author="'+authorname+'">\r\n')
@@ -167,7 +168,7 @@ def add_changeset_xml(f, authorname, authorid, comment, tablename_pre, thisincre
 		f.write('            <column name="topping" type="varchar(255)"/>\r\n')
 		f.write('            <column name="sauce" type="varchar(128)"/>\r\n')
 		f.write('        </createTable>\r\n')
-		f.write('    <changeSet>')
+		f.write('    </changeSet>')
 		f.write("\r\n")
 
 	
@@ -237,7 +238,7 @@ def make_loadtestdir(num_of_files, num_of_changesets):
 
 ######################################
 ## create a number of changelogfiles
-def make_changelogfiles(num_of_files, num_of_changesets, hubmode):
+def make_changelogfiles(num_of_files, num_of_changesets, hubmode, changelog_type):
 	for a in range(num_of_files):
 	
 		## SETUP SOME VARS
@@ -309,6 +310,7 @@ def main(args):
 	lbcmd = "none"
 	do_lbcmd = 0
 	hubmode = hubmode_default
+	changelog_type = changelog_type_default
 	total_time = 0
 	starth2 = 1
 
@@ -373,6 +375,32 @@ def main(args):
 	else:
 		do_hubsend = 0
 		
+	
+	
+	if len(args) == 5:
+		num_of_files = args[0]
+		num_of_changesets = args[1]
+		if args[2] in lbcmds_list: ## this is weird, do i need?
+			lbcmd = args[2]
+			do_lbcmd = 1
+		else:
+			print("whoa -- only valid 3rd param for now is 'update'.")
+			sys.exit(1)
+			
+		if args[3] in hubmodes_list:
+			hubmode = args[3]
+			do_hubsend = 1
+		else:
+			do_hubsend = 0
+			
+		if args[4] in changelogstypes_list:
+			changelog_type = args[4]
+	else:
+		do_hubsend = 0	
+	
+	
+	
+	
 		
 	##perhaps this belongs some other place but lets try a start-h2
 	if starth2 == 1:
@@ -407,7 +435,7 @@ def main(args):
 	loadtest_dir = make_loadtestdir(num_of_files, num_of_changesets)	
 	
 	## make the changelog files w/ changesets AND liquibase.properties files
-	make_changelogfiles(num_of_files, num_of_changesets, hubmode)
+	make_changelogfiles(num_of_files, num_of_changesets, hubmode, changelog_type)
 	
 	
 	
