@@ -26,7 +26,7 @@ import os, sys, subprocess, time, random
 ######### OVERALLCONFIGS
 ### TOOL VARS
 toolname = "python_gen_tool"
-toolversion = str("_v.15")
+toolversion = str("_v.16")
 
 ## TODO: MAKE THESE INTERACTIVE INPUTS
 #num_of_files = int(5)
@@ -45,8 +45,10 @@ tablename_pre = "gen"
 ### CHANGELOG VARS
 changelog_pre = "changelog00"
 db_shortcode = "h2"
-changelog_type = "sql"
+changelog_type = "xml"
 sql_format_starter = "-- liquibase formatted sql "
+xml_format_starter = '<?xml version="1.0" encoding="UTF-8"?>'
+
 
 ### LIQUIBASE PROPERTIES FILE VARS
 lbpropsfile_pre = "liquibase"
@@ -73,7 +75,7 @@ timefile = "total_time.csv"
 
 #################################
 ## add a changeset to the changelog
-def add_changeset(f, authorname, authorid, comment, tablename_pre, thisincrement, thiscounter):
+def add_changeset_sql(f, authorname, authorid, comment, tablename_pre, thisincrement, thiscounter):
 	
 	choice = random.choice(["company", "pizza"])
 	authorid = authorid + "-" + choice + "-" +thisincrement + "-" + thiscounter
@@ -98,6 +100,28 @@ def add_changeset(f, authorname, authorid, comment, tablename_pre, thisincrement
 		f.write("    inches varchar(255),\r\n")
 		f.write("    topping varchar(255),\r\n")
 		f.write("    rainbows int(5)\r\n")
+		f.write(")\r\n")
+		
+	f.write("-- rollback DROP TABLE " + tablename + "\r\n")	
+	f.write("\r\n")
+	
+
+
+
+#################################
+## add a changeset to the changelog
+def add_changeset_xml(f, authorname, authorid, comment, tablename_pre, thisincrement, thiscounter):
+	
+	choice = random.choice(["company", "pizza"])
+	authorid = authorid + "-" + choice + "-" +thisincrement + "-" + thiscounter
+	tablename = tablename_pre + "" + choice + "" + thisincrement + "" + thiscounter
+	
+	if choice == "company":
+		f.write("xml changeset type 1\r\n")
+		f.write(")\r\n")
+
+	else:
+		f.write("xml changeset tyoe 2\r\n")
 		f.write(")\r\n")
 		
 	f.write("-- rollback DROP TABLE " + tablename + "\r\n")	
@@ -175,19 +199,21 @@ def make_changelogfiles(num_of_files, num_of_changesets, hubmode):
 		changelogname = changelog_pre
 		changelogtoadd = changelog_pre + thisincrement + "_"+str(num_of_changesets)+"_changes." +db_shortcode+ "." + changelog_type
 		
-		
-		
-		print("START MAKING FILES")	
 		#start the file
-		f = open( changelogtoadd,"w+" )
-		# f.write( sql_format_starter + " changelogid:" + str(hubchangelogid) + "\r\n")
-		f.write( sql_format_starter + "\r\n")
-		f.write("\r\n")
-		
+		print("START MAKING FILES")	
+		f = open( changelogtoadd,"w+" )		
 		
 		for b in range(num_of_changesets):
 			thiscounter = str(b + 1)
-			add_changeset(f, authorname, authorid, comment, tablename_pre, thisincrement, thiscounter)
+			if changelog_type == "sql":
+				f.write( sql_format_starter + "\r\n")
+				f.write("\r\n")
+				add_changeset_sql(f, authorname, authorid, comment, tablename_pre, thisincrement, thiscounter)
+			if changelog_type == "xml":
+				f.write( xml_format_starter + "\r\n")
+				f.write("\r\n")
+				add_changeset_xml(f, authorname, authorid, comment, tablename_pre, thisincrement, thiscounter)
+			
 		f.close() 
 	
 		#### while it could be argued for these to be decoupled, they are convenient here for now
@@ -368,8 +394,6 @@ def dolbcommand(loadtest_dir, num_of_files, num_of_changesets, lbcmd, hubmode):
 		
 		# first register the changelog
 		registerthechangelog()
-		
-		
 		
 		
 		# now do the liquibase command
