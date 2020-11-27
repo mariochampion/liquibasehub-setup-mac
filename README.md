@@ -55,7 +55,7 @@
 	 
 **Intention** 
 	 
-The goal of the makechangelogs.py script is that you run updates against a local h2 with and without sending to hub and compare the times logged in the total_time.csv created in the dir which was created to store you testing changelogs. for example, run
+The goal of the makechangelogs.py script is that you run updates from a formatted SQL(default) changelog file against a local h2 with and without sending to hub and compare the times logged in the total_time.csv created in the dir which was created to store you testing changelogs. for example, run
 
 `python makechangelogs.py 2 100 update`
 
@@ -71,14 +71,15 @@ and compare the total_times.csv in each timestamped directories.
 2. `git clone https://github.com/mariochampion/liquibasehub-setup-mac.git`
 3. `cd liquibasehub-setup-mac`
 
-4a. Example usage: `python makechangelogs.py 5 25` to create 5 changelogs of 25 changesets 
+4a. Example usage: `python makechangelogs.py 5 25` to create 5 formatted SQL changelogs of 25 changesets 
 
 
-4b. Example usage: `python makechangelogs.py 5 25 update all` to create 5 changelogs of 25 changesets, run `update` and send `all` data to Hub using local and transient H2 database
+4b. Example usage: `python makechangelogs.py 5 25 update all` to create 5 formatted SQL changelogs of 25 changesets, run `update` and send `all` data to Hub using local and transient H2 database
 
 
-4c. Example usage: `python makechangelogs.py 5 25 update meta` to create 5 changelogs of 25 changesets, run `update` and send only `meta` data to Hub using local and transient H2 database
+4c. Example usage: `python makechangelogs.py 5 25 update meta` to create 5 formatted SQL changelogs of 25 changesets, run `update` and send only `meta` data to Hub using local and transient H2 database
 
+4d. Example usage: `python makechangelogs.py 5 25 update meta xml` to create 5 XML changelogs of 25 changesets, run `update` and send only `meta` data to Hub using local and transient H2 database
 
 **Details**
 1. There are two REQUIRED and two OPTIONAL parameters available in the command line. THE ORDER MATTERS.
@@ -98,7 +99,11 @@ and compare the total_times.csv in each timestamped directories.
     1. "all" reports command's metadata, sql, and log content will sent to Hub
     2. "meta" reoprts only the command's metadata (and no sql or log content) will sent to Hub
     3. "off" reports no data sent to Hub
-6. Time-tracking files:
+6. Secret and optional 5th parameter to choose sql or xml changelogfile types! (27 NOV 2020)
+	1. Example: `python makechangelogs.py 5 25 <update> <all|off|meta> <xml|sql=default>`
+	2. Liquibase formatted SQL changelog files created by default.
+	3. JSON and YAML changelog file types coming soon.
+7. Time-tracking files:
 	1. A time tracking changelog01-worktime.csv.CSV, etc file is created to log performance of each changelog file and 
 	2. A time_total.csv is added which provides total elapsed time in seconds to perform all the commands across all changelogs
 
@@ -130,7 +135,7 @@ This script used an included local in-memory H2 database, which you can [y] or [
 
 10. DONE - check in on all startup params permutations for the correct follow ups when params missing
 
-11. enable XML changelogs
+11. DONE - enable XML changelogs
 
 12. enable rollback commands via this tool
 
