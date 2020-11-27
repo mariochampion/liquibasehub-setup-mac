@@ -395,6 +395,10 @@ def main(args):
 			
 		if args[4] in changelogstypes_list:
 			changelog_type = args[4]
+		else:
+			print("whoa -- only valid 4th param for now is 'sql' or 'xml'.")
+			print("using default changelog type of " + changelog_type_default + ".")
+
 	else:
 		do_hubsend = 0	
 	
