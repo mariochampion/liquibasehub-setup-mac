@@ -28,7 +28,7 @@
     
     -- but you might could use Python 3, but i didnt test it: https://docs.python-guide.org/starting/install3/osx/
     
- 2. You need to sign up with Liquibase Hub to get an API Key, and you will need to register a changelog to a Hub Project, so you can use the changelogid
+ 2. You need to sign up with Liquibase Hub to get an API Key, and you will need to register a changelog to a Hub Project, so you can use the projectID in your ENV vars
  
     -- https://hub.liquibase.com
 
