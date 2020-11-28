@@ -82,15 +82,16 @@ and compare the total_times.csv in each timestamped directories.
 4d. Example usage: `python makechangelogs.py 5 25 update meta xml` to create 5 XML changelogs of 25 changesets, run `update` and send only `meta` data to Hub using local and transient H2 database
 
 **Details**
-1. There are two REQUIRED and two OPTIONAL parameters available in the command line. THE ORDER MATTERS.
+1. There are two REQUIRED and three OPTIONAL parameters available in the command line. THE ORDER MATTERS.
     1. REQ: number of changelogs to create
     2. REQ: number of changesets in each changelog
     3. OPT: command to run (right now limited to `update`)
     4. OPT: switch to send data to Hub or not [all=default|meta|off]
+    5. OPT: swicth changelog file type between [sql=default|xml]
 2. Example: `python makechangelogs.py 5 25 <update> <all>` 
 3. Output with NO optional `update` parameter: 
 	1. a new directory "loadtest_5x25_<HrMinSecTimestamp>" with contents
-	2. 5 changelogs named "changelog001.h2.sql", "changelog002.h2.sql", etc with 25 changesets in each
+	2. 5 formatted SQL changelogs named "changelog001.h2.sql", "changelog002.h2.sql", etc with 25 changesets in each
 	3. 5 matching liquibase.properties files "liquibase-01.properties", "liquibase-02.properties", etc
 4. Output with optional `update` parameter: 
 	1. same as above BUT then `liquibase update` is called for each properties file
@@ -100,7 +101,7 @@ and compare the total_times.csv in each timestamped directories.
     2. "meta" reoprts only the command's metadata (and no sql or log content) will sent to Hub
     3. "off" reports no data sent to Hub
 6. Secret and optional 5th parameter to choose sql or xml changelogfile types! (27 NOV 2020)
-	1. Example: `python makechangelogs.py 5 25 <update> <all|off|meta> <xml|sql=default>`
+	1. Example: `python makechangelogs.py 5 25 <update> <all|off|meta> <sql=default|xml>`
 	2. Liquibase formatted SQL changelog files created by default.
 	3. JSON and YAML changelog file types coming soon.
 7. Time-tracking files:
