@@ -1,7 +1,7 @@
 #!/bin/sh
 
 BASE_CORE_APP_URL="http://mariochampion.com/liquibase"
-CURRENT_CORE_APP="liquibase-4.1"
+CURRENT_CORE_APP="liquibase-4.2"
 
 echo "So you want to run Liquibase Hub on your mac?"
 echo "NOTE: You must have docker installed and running!"
