@@ -337,7 +337,7 @@ def main(args):
 		print(color.cyan + "\r\n------ (newprojectid: "+newprojectid+" -------\r\n" + color.white)
 		envvarcmd="sh ../addEnvVarProjId.sh " + newprojectid
 		subprocess.call(envvarcmd, shell=True)
-		sys.exit(1)
+
 	
 	else:
 		print(color.cyan + "\r\n------ (sum'n dun goofed!) -------\r\n" + color.white)
@@ -346,8 +346,7 @@ def main(args):
 	
 	
 	### do teh closing
-	total_commands = int(num_of_files)*int(num_of_changesets)
-	do_teh_closing(total_time, total_commands, loadtest_dir)
+	do_teh_closing(loadtest_dir, newprojectid)
 
 
 	
@@ -366,7 +365,7 @@ def registernewproject():
 	
 ######################################
 ## just a little closer
-def do_teh_closing(total_time, total_commands, loadtest_dir):
+def do_teh_closing(loadtest_dir, newprojectid):
 	## first stop h2
 	print(color.magenta + "begin teh_end...(hold each other)..." + color.white)
 	print("\r")
@@ -374,11 +373,11 @@ def do_teh_closing(total_time, total_commands, loadtest_dir):
 	## then present the good news!
 	print(color.magenta + "------------------------------------------" + color.white)
 	print("\r")
-	print(color.cyan + " -- Completed: " +str(total_commands)+" commands in " +str(total_time)+ " seconds-- " + color.white)
+	print(color.cyan + " -- Registerchangelog to new project: " +str(loadtest_dir))
 	print("\r")
-	print(color.cyan + " -- Check out time tracking files: 'open " +str(loadtest_dir)+"/" +str(timefile)+ "' -- " + color.white)
+	print(color.cyan + " -- with PROJECTID: " +str(newprojectid) + color.white)
 	print("\r")
-	print(color.cyan + "     ps. i love you. boop.boop." + color.white)
+	print(color.cyan + " -- ps. i love you. boop.boop." + color.white)
 	print("\r")
 	print(color.magenta + "------------------------------------------\r" + color.white)
 
