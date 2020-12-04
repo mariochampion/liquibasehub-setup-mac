@@ -59,10 +59,9 @@ hubmodes_list = ("off","meta","all")
 hubmode_default = "all"
 hubapikey = os.environ.get('LIQUIBASE_HUB_APIKEY')
 huburl = os.environ.get('LIQUIBASE_HUB_URL')
-hubchangelogid = os.environ.get('LIQUIBASE_HUB_CHANGELOGID')
 hubprojectid = os.environ.get('LIQUIBASE_HUB_PROJECTID')
-if hubapikey == "" or huburl == "" or hubchangelogid== "":
-	print("DOH! Need both a LIQUIBASE_HUB_APIKEY and LIQUIBASE_HUB_URL and LIQUIBASE_HUB_CHANGELOGID for this to work.")
+if hubapikey == "" or huburl == "" or hubprojectid== "":
+	print("DOH! Need 3 env vars:LIQUIBASE_HUB_APIKEY, LIQUIBASE_HUB_URL, LIQUIBASE_HUB_PROJECTID for this to work.")
 	print("Check the README for instructions!")
 	sys.exit(1)
 
