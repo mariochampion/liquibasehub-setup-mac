@@ -57,23 +57,15 @@ lbpropsfile_pre = "liquibase"
 lbpropsfile_sfx = ".properties"
 lbprops = lbpropsfile_pre + lbpropsfile_sfx
 hubmodes_list = ("off","meta","all")
-hubmode_default = "all"
+hubmode_default = "off"
 hubapikey = os.environ.get('LIQUIBASE_HUB_APIKEY')
 huburl = os.environ.get('LIQUIBASE_HUB_URL')
-hubchangelogid = os.environ.get('LIQUIBASE_HUB_CHANGELOGID')
 hubprojectid = os.environ.get('LIQUIBASE_HUB_PROJECTID')
-if hubapikey == "" or huburl == "" or hubchangelogid== "":
-	print("DOH! Need both a LIQUIBASE_HUB_APIKEY and LIQUIBASE_HUB_URL and LIQUIBASE_HUB_CHANGELOGID for this to work.")
+if hubapikey == "" or huburl == ""
+	print("DOH! Need 3 env vars:LIQUIBASE_HUB_APIKEY, LIQUIBASE_HUB_URL, LIQUIBASE_HUB_PROJID for this to work.")
 	print("Check the README for instructions!")
 	sys.exit(1)
 
-lbcmds_list = ("update") # not sure what else makes sense for this test for now
-
-
-### WORKTIME TRACKING FILE VARS
-worktimefile_suffix = "-worktime.csv"
-worktime_fields = "action,hubmode,start,end,elapsed"
-timefile = "total_time.csv"
 
 #################################
 ## add a changeset to the changelog
@@ -313,107 +305,13 @@ def main(args):
 	hubmode = hubmode_default
 	changelog_type = changelog_type_default
 	total_time = 0
-	starth2 = 1
 
-	if len(args) == 0:
-		print(color.yellow + "No parameters found. Please answer two quick questions:" + color.white)		
-		num_of_files = input(color.yellow + "In this loadtest, how many changelogs? \r\n" + color.white)		
-		num_of_changesets = input(color.yellow + "and in each, how many changesets? \r\n" + color.white)		
+	num_of_files = 1
+	num_of_changesets = 1	
+	print(color.cyan + "Done: Changelog and changeset quantities set.\r\n" + color.white)
+		
+	
 
-	if len(args) == 2:
-		num_of_files = args[0]
-		num_of_changesets = args[1]		
-		print(color.cyan + "Done: Changelog and changeset quantities set.\r\n" + color.white)
-		
-		#ask for other two optional params		
-		lbcmd_raw = raw_input("Optional: Auto-run liquibase update command? Enter [y] or [n] \r\n")
-		if lbcmd_raw in ("y","Y"):
-			lbcmd = "update"
-			do_lbcmd = 1
-		if lbcmd_raw in ("n","N"):
-			lbcmd = "none"		
-		
-		
-		send_data_raw = raw_input("Optional: Send command reports to Hub? Enter [y] or [n] \r\n")
-		if send_data_raw in ("y","Y"):
-			hubmode = "all"
-		if send_data_raw in ("n","N"):
-			hubmode = "off"	
-			
-		starth2_raw = raw_input("Optional: Start local in-memory H2 db? Enter [y] or [n] \r\n")
-		if starth2_raw in ("y","Y"):
-			starth2 = 1
-		if starth2_raw in ("n","N"):
-			print(color.red + "\r\n------ WARNING: H2 not to be started. If no active H2 connection found, update will fail. -------\r\n" + color.white)
-			starth2 = 0	
-
-	if len(args) == 3:
-		num_of_files = args[0]
-		num_of_changesets = args[1]	
-		if args[2] in lbcmds_list: ## this is weird, do i need?
-			lbcmd = args[2]
-			do_lbcmd = 1
-		else:
-			print("whoa -- only valid 3rd param for now is 'update'.")
-			sys.exit(1)
-		
-
-	if len(args) == 4:
-		num_of_files = args[0]
-		num_of_changesets = args[1]
-		if args[2] in lbcmds_list: ## this is weird, do i need?
-			lbcmd = args[2]
-			do_lbcmd = 1
-		else:
-			print("whoa -- only valid 3rd param for now is 'update'.")
-			sys.exit(1)
-			
-		if args[3] in hubmodes_list:
-			hubmode = args[3]
-			do_hubsend = 1
-		else:
-			do_hubsend = 0
-	else:
-		do_hubsend = 0
-		
-	
-	
-	if len(args) == 5:
-		num_of_files = args[0]
-		num_of_changesets = args[1]
-		if args[2] in lbcmds_list: ## this is weird, do i need?
-			lbcmd = args[2]
-			do_lbcmd = 1
-		else:
-			print("whoa -- only valid 3rd param for now is 'update'.")
-			sys.exit(1)
-			
-		if args[3] in hubmodes_list:
-			hubmode = args[3]
-			do_hubsend = 1
-		else:
-			do_hubsend = 0
-			
-		if args[4] in changelogstypes_list:
-			changelog_type = args[4]
-		else:
-			print("whoa -- only valid 4th param for now is 'sql' or 'xml'.")
-			print("using default changelog type of " + changelog_type_default + ".")
-
-	else:
-		do_hubsend = 0	
-	
-	
-	
-	
-		
-	##perhaps this belongs some other place but lets try a start-h2
-	if starth2 == 1:
-		print(color.red + "\r\n------ STARTING h2 DATABASE -------\r\n" + color.white)
-		newtabcmd="./start-h2"
-		subprocess.Popen(newtabcmd, shell=True)
-	
-	
 	
 	## now do some variable type checking, 'cause...  
 	try:
@@ -447,11 +345,6 @@ def main(args):
 	if (int(num_of_files) == 1):
 		#&& (int(num_of_changesets) == 1) && (hubmode == "all")
 		print(color.cyan + "\r\n------ (SPECIAL REG NEW PROJECT (1)) -------\r\n" + color.white)
-		#go into that dir and rename .props
-		#dir_name = dir_prefix + "_" + str(num_of_files)+ "x" +str(num_of_changesets)+ "_" + str(thistime)
-		#dir_parent = "./"
-		#dir_path = os.path.join(dir_parent, dir_name)
-		#os.chdir(dir_path)
 		os.rename("liquibase-01.properties", lbprops)
 		# then register the changelog
 		newprojectid = registernewproject()
