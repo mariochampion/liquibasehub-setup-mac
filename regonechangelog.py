@@ -35,7 +35,7 @@ toolversion = str("_v.r_01")
 thistime = time.strftime("%H%M%S")
 
 ## DIR FOR CHANGELOG FILES AND .PROPERTIES FILES
-dir_prefix = "loadtest"
+dir_prefix = "regnewproject"
 
 ### CHANGESET VARS
 authorname = "mmc"
@@ -61,7 +61,7 @@ hubmode_default = "off"
 hubapikey = os.environ.get('LIQUIBASE_HUB_APIKEY')
 huburl = os.environ.get('LIQUIBASE_HUB_URL')
 hubprojectid = os.environ.get('LIQUIBASE_HUB_PROJECTID')
-if hubapikey == "" or huburl == ""
+if hubapikey == "" or huburl == "" or hubprojectid == "":
 	print("DOH! Need 3 env vars:LIQUIBASE_HUB_APIKEY, LIQUIBASE_HUB_URL, LIQUIBASE_HUB_PROJID for this to work.")
 	print("Check the README for instructions!")
 	sys.exit(1)
@@ -278,21 +278,6 @@ def make_changelogfiles(num_of_files, num_of_changesets, hubmode, changelog_type
 
 
 
-######################################
-## dcreate a file for tracking timestamps in
-def add_worktimefile(changelogtoadd):
-	
-	## setup some vars
-	worktimefile = changelogtoadd + worktimefile_suffix
-	
-	## create the file for later adding timestamps
-	lf = open (worktimefile, "w+")
-	lf.write(worktime_fields + "\n")
-	lf.close()
-	
-	return worktimefile
-	
-
 
 
 ######################################
@@ -346,6 +331,7 @@ def main(args):
 		#&& (int(num_of_changesets) == 1) && (hubmode == "all")
 		print(color.cyan + "\r\n------ (SPECIAL REG NEW PROJECT (1)) -------\r\n" + color.white)
 		os.rename("liquibase-01.properties", lbprops)
+		
 		# then register the changelog
 		newprojectid = registernewproject()
 		print(color.cyan + "\r\n------ (newprojectid: "+newprojectid+" -------\r\n" + color.white)
@@ -354,10 +340,9 @@ def main(args):
 		sys.exit(1)
 	
 	else:
-		print(color.cyan + "\r\n------ (DO LB CMD (1)) -------\r\n" + color.white)
-		## do the commands
-		if do_lbcmd == 1:
-			total_time = dolbcommand(loadtest_dir, num_of_files, num_of_changesets, lbcmd, hubmode)
+		print(color.cyan + "\r\n------ (sum'n dun goofed!) -------\r\n" + color.white)
+		sys.exit(1)
+
 	
 	
 	### do teh closing
@@ -365,84 +350,9 @@ def main(args):
 	do_teh_closing(total_time, total_commands, loadtest_dir)
 
 
-
-
-
-######################################
-## do the update command, cycling thru the liquibase.properties files
-## perhaps move this to a different file, so it could be useful and called outside this script
-## for now, just limit to update because of simplicity and not checking all known lb commands etc
-def dolbcommand(loadtest_dir, num_of_files, num_of_changesets, lbcmd, hubmode):
-	print("Moved to " + loadtest_dir + " with " + str(num_of_files)+ " changelogs and .props files")
-	
-	status_prestart = time.time()	
-	for thisprop in range(num_of_files):
-		# construct filename TODO: use the vars!
-		total_commands = int(num_of_files)*int(num_of_changesets)
-		worktimefile = "changelog0" + str(thisprop+1) + worktimefile_suffix
-		thispropsfile = "liquibase-0" + str(thisprop+1) + lbpropsfile_sfx
-		print(color.blue + "START: Processing: " + thispropsfile + color.white + "\r\n")
-		
-		os.rename(thispropsfile, lbprops)
-		
-		## start tracking
-		## worktime_fields = action,hubmode,start,end,elapsed
-		status_start = time.time()		
-		
-		# first register the changelog
-		registerthechangelog()
-		
-		
-		# now do the liquibase command
-		# assume for now that h2 is running from external sources etc
-		# do this hard-coded, but this/these could passed in from params
-		statuscmd = "liquibase status"
-		subprocess.call(statuscmd, shell=True)
-		time.sleep(3) 
-		print(color.cyan + "\r\n------ (DONE: STATUS) -------\r\n" + color.white)
-	
-		status_end = time.time()
-		lbcmd_start = time.time()
-	
-		## DO THE COMMAND
-		updatecmd = "liquibase " + lbcmd
-		subprocess.call(updatecmd, shell=True) 
-		print(color.cyan + "\r\n------ (DONE: UPDATE) -------\r\n" + color.white)
-	
-		lbcmd_end = time.time()	
-		wrk = open(worktimefile, "a+")
-		wrk.write(worktime_fields + "\n")
-		wrk.write("status," +hubmode+ "," + str(status_start) + "," + str(status_end) + "," + str(status_end-status_start) + "\n")
-		wrk.write(lbcmd + "," + hubmode + "," + str(lbcmd_start) + "," + str(lbcmd_end) + "," + str(lbcmd_end-lbcmd_start) + "\n")
-		wrk.close()
-		#rename the props file to keep for later runs
-		os.rename(lbprops, thispropsfile)
-	
-	##prep for the totals
-	total_time = lbcmd_end-status_prestart	
-	tt = open(timefile, "w+")
-	tt.write("total_commands,total_time \n")
-	tt.write(str(total_commands) +","+ str(total_time) )
-	tt.close()
-	
-	return total_time
-
-
 	
 ######################################
-## register the changelogs for better experience
-def registerthechangelog():
-	## get the project id and make a string
-	hubprojectidz = str(hubprojectid)
-	regchangelogcmd = "liquibase registerChangeLog --hubProjectId="+hubprojectidz
-	print(color.cyan + "\r\n------ (REGISTERCHANGELOG: START) -------\r\n" + color.white)
-	subprocess.call(regchangelogcmd, shell=True)
-	print(color.cyan + "\r\n------ (REGISTERCHANGELOG: DONE) -------\r\n" + color.white)	
-
-
-
-
-
+## register the project
 def registernewproject():
 	## run registerchangelog and get the ne projectID and then add to env vars
 	print(color.cyan + "\r\n------ (SPECIAL REG NEW PROJECT (2)) -------\r\n" + color.white)
@@ -459,10 +369,8 @@ def registernewproject():
 def do_teh_closing(total_time, total_commands, loadtest_dir):
 	## first stop h2
 	print(color.magenta + "begin teh_end...(hold each other)..." + color.white)
-	endH2cmd="killall java"
-	subprocess.Popen(endH2cmd, shell=True)
-	time.sleep(3) 
-	
+	print("\r")
+		
 	## then present the good news!
 	print(color.magenta + "------------------------------------------" + color.white)
 	print("\r")
