@@ -357,7 +357,9 @@ def registernewproject():
 	print(color.cyan + "\r\n------ (SPECIAL REG NEW PROJECT (2)) -------\r\n" + color.white)
 	
 	regnewprojcmd = "liquibase registerchangelog"
+	# need to pass "c" and then "project name"
 	# subprocess.Popen(regnewprojcmd, shell=True)
+	
 	
 	return "some-new-proj-id99"
 	
