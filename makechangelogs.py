@@ -64,6 +64,8 @@ if hubapikey == "" or huburl == "" or hubprojectid== "":
 	print("DOH! Need 3 env vars:LIQUIBASE_HUB_APIKEY, LIQUIBASE_HUB_URL, LIQUIBASE_HUB_PROJECTID for this to work.")
 	print("Check the README for instructions!")
 	sys.exit(1)
+else:
+	print("HUBAPI:"+str(hubapikey)+" & HUBPROJECTID:"+str(hubprojectid)+"\r\n")
 
 lbcmds_list = ("update") # not sure what else makes sense for this test for now
 
